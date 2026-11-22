@@ -46,7 +46,7 @@ git tag v5.0.0
 git push origin v5.0.0
 ```
 
-The tag becomes the app version. The release gets `crosshair-y-win32-x64.zip` and `crosshair-y-linux-x64.tar.gz`: extract one and run `crosshair-y.exe` / `crosshair-y`. Tags with a dash (e.g. `v5.1.0-beta.1`) are published as pre-releases. To get the packages without publishing a release, run the workflow manually from the Actions tab; they're attached to the run.
+The tag becomes the app version. The workflow creates a **draft** release. Check it on the repository's Releases page, edit the notes if you like, and click **Publish release** to make it public. Until then, users and the in-app update check don't see it. The release gets `crosshair-y-win32-x64.zip` and `crosshair-y-linux-x64.tar.gz`: extract one and run `crosshair-y.exe` / `crosshair-y`. Tags with a dash (e.g. `v5.1.0-beta.1`) are marked as pre-releases. To get the packages without publishing a release, run the workflow manually from the Actions tab; they're attached to the run.
 
 ## Project layout
 
