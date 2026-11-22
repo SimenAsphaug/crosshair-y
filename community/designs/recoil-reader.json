@@ -1,0 +1,29 @@
+{
+  "author": "Crosshair Y",
+  "tags": [
+    "dynamic",
+    "tactical"
+  ],
+  "game": null,
+  "design": {
+    "name": "Recoil Reader",
+    "lines": {
+      "enabled": true,
+      "color": "#a3ff12",
+      "length": 6,
+      "thickness": 2,
+      "gap": 3
+    },
+    "tShape": "firing",
+    "bloom": {
+      "enabled": true,
+      "amount": 7,
+      "attack": 45,
+      "recovery": 240
+    },
+    "outline": {
+      "enabled": true,
+      "opacity": 0.7
+    }
+  }
+}

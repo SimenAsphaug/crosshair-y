@@ -1,0 +1,240 @@
+{
+ "version": 1,
+ "designs": [
+  {
+   "slug": "violet-x",
+   "author": "Crosshair Y",
+   "tags": [
+    "classic"
+   ],
+   "game": null,
+   "added": "2026-11-22T10:52:48.992Z",
+   "design": {
+    "name": "Violet X",
+    "lines": {
+     "enabled": true,
+     "color": "#c77dff",
+     "length": 6,
+     "thickness": 2,
+     "gap": 3,
+     "rotation": 45
+    },
+    "dot": {
+     "enabled": true,
+     "color": "#ffffff",
+     "size": 2
+    },
+    "outline": {
+     "enabled": true,
+     "opacity": 0.8
+    }
+   }
+  },
+  {
+   "slug": "tac-cyan",
+   "author": "Crosshair Y",
+   "tags": [
+    "tactical",
+    "classic"
+   ],
+   "game": "Counter-Strike",
+   "added": "2026-11-22T10:52:48.951Z",
+   "design": {
+    "name": "Tac Cyan",
+    "lines": {
+     "enabled": true,
+     "color": "#00e5ff",
+     "length": 5,
+     "thickness": 1.5,
+     "gap": 2.5
+    },
+    "outline": {
+     "enabled": true,
+     "opacity": 0.9,
+     "thickness": 1
+    }
+   }
+  },
+  {
+   "slug": "sentinel",
+   "author": "Crosshair Y",
+   "tags": [
+    "tactical",
+    "small"
+   ],
+   "game": "Valorant",
+   "added": "2026-11-22T10:52:48.911Z",
+   "design": {
+    "name": "Sentinel",
+    "lines": {
+     "enabled": true,
+     "color": "#ffffff",
+     "length": 4,
+     "thickness": 2,
+     "gap": 3
+    },
+    "dot": {
+     "enabled": true,
+     "color": "#ffffff",
+     "size": 2
+    },
+    "outline": {
+     "enabled": true,
+     "opacity": 0.6
+    }
+   }
+  },
+  {
+   "slug": "recoil-reader",
+   "author": "Crosshair Y",
+   "tags": [
+    "dynamic",
+    "tactical"
+   ],
+   "game": null,
+   "added": "2026-11-22T10:52:48.869Z",
+   "design": {
+    "name": "Recoil Reader",
+    "lines": {
+     "enabled": true,
+     "color": "#a3ff12",
+     "length": 6,
+     "thickness": 2,
+     "gap": 3
+    },
+    "tShape": "firing",
+    "bloom": {
+     "enabled": true,
+     "amount": 7,
+     "attack": 45,
+     "recovery": 240
+    },
+    "outline": {
+     "enabled": true,
+     "opacity": 0.7
+    }
+   }
+  },
+  {
+   "slug": "neon-pin",
+   "author": "Crosshair Y",
+   "tags": [
+    "dot",
+    "small"
+   ],
+   "game": null,
+   "added": "2026-11-22T10:52:48.827Z",
+   "design": {
+    "name": "Neon Pin",
+    "lines": {
+     "enabled": false
+    },
+    "dot": {
+     "enabled": true,
+     "color": "#39ff14",
+     "size": 3,
+     "shape": "circle"
+    },
+    "outline": {
+     "enabled": true,
+     "color": "#000000",
+     "opacity": 0.8,
+     "thickness": 1
+    }
+   }
+  },
+  {
+   "slug": "long-range",
+   "author": "Crosshair Y",
+   "tags": [
+    "sniper"
+   ],
+   "game": null,
+   "added": "2026-11-22T10:52:48.787Z",
+   "design": {
+    "name": "Long Range",
+    "lines": {
+     "enabled": true,
+     "color": "#ff2d55",
+     "length": 24,
+     "thickness": 1,
+     "gap": 8
+    },
+    "circle": {
+     "enabled": true,
+     "color": "#ff2d55",
+     "radius": 30,
+     "thickness": 1,
+     "opacity": 0.7
+    },
+    "dot": {
+     "enabled": true,
+     "color": "#ff2d55",
+     "size": 2
+    },
+    "outline": {
+     "enabled": false
+    }
+   }
+  },
+  {
+   "slug": "frost-glow",
+   "author": "Crosshair Y",
+   "tags": [
+    "glow"
+   ],
+   "game": null,
+   "added": "2026-11-22T10:52:48.746Z",
+   "design": {
+    "name": "Frost Glow",
+    "lines": {
+     "enabled": true,
+     "color": "#e0fbff",
+     "length": 7,
+     "thickness": 2,
+     "gap": 4,
+     "blur": 0.8
+    },
+    "outline": {
+     "enabled": true,
+     "color": "#38bdf8",
+     "opacity": 0.7,
+     "thickness": 2,
+     "blur": 2.5
+    }
+   }
+  },
+  {
+   "slug": "ember-ring",
+   "author": "Crosshair Y",
+   "tags": [
+    "circle",
+    "glow"
+   ],
+   "game": null,
+   "added": "2026-11-22T10:52:48.702Z",
+   "design": {
+    "name": "Ember Ring",
+    "lines": {
+     "enabled": false
+    },
+    "circle": {
+     "enabled": true,
+     "color": "#ff7a1a",
+     "radius": 9,
+     "thickness": 1.5,
+     "blur": 0.4
+    },
+    "dot": {
+     "enabled": true,
+     "color": "#ffd166",
+     "size": 2,
+     "shape": "circle"
+    },
+    "outline": {
+     "enabled": false
+    }
+   }
+  }
+ ]
+}

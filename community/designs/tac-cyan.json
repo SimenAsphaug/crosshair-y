@@ -1,0 +1,23 @@
+{
+  "author": "Crosshair Y",
+  "tags": [
+    "tactical",
+    "classic"
+  ],
+  "game": "Counter-Strike",
+  "design": {
+    "name": "Tac Cyan",
+    "lines": {
+      "enabled": true,
+      "color": "#00e5ff",
+      "length": 5,
+      "thickness": 1.5,
+      "gap": 2.5
+    },
+    "outline": {
+      "enabled": true,
+      "opacity": 0.9,
+      "thickness": 1
+    }
+  }
+}

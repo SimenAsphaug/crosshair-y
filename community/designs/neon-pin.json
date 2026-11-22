@@ -1,0 +1,26 @@
+{
+  "author": "Crosshair Y",
+  "tags": [
+    "dot",
+    "small"
+  ],
+  "game": null,
+  "design": {
+    "name": "Neon Pin",
+    "lines": {
+      "enabled": false
+    },
+    "dot": {
+      "enabled": true,
+      "color": "#39ff14",
+      "size": 3,
+      "shape": "circle"
+    },
+    "outline": {
+      "enabled": true,
+      "color": "#000000",
+      "opacity": 0.8,
+      "thickness": 1
+    }
+  }
+}

@@ -1,0 +1,89 @@
+name: Build & release
+
+# Push a tag like v5.0.0 to build Windows + Linux packages and publish a GitHub release.
+# "Run workflow" (manual) builds the packages and attaches them to the run without releasing.
+on:
+  push:
+    tags: ["v*"]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - os: windows-latest
+            platform: win32
+          - os: ubuntu-latest
+            platform: linux
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Use the tag as the app version
+        if: startsWith(github.ref, 'refs/tags/v')
+        shell: bash
+        run: npm version "${GITHUB_REF_NAME#v}" --no-git-tag-version --allow-same-version
+
+      - name: Type-check and build
+        run: |
+          npm run typecheck
+          npm run build
+
+      - name: Package
+        run: node scripts/package.mjs ${{ matrix.platform }} x64
+
+      - name: Archive (Windows)
+        if: matrix.platform == 'win32'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path build/crosshair-y-win32-x64 -DestinationPath crosshair-y-win32-x64.zip
+
+      - name: Archive (Linux)
+        if: matrix.platform == 'linux'
+        # tar keeps the executable permission, which zip would lose.
+        run: tar -czf crosshair-y-linux-x64.tar.gz -C build crosshair-y-linux-x64
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: crosshair-y-${{ matrix.platform }}-x64
+          path: crosshair-y-${{ matrix.platform }}-x64.*
+          if-no-files-found: error
+
+  release:
+    needs: build
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: dist
+          merge-multiple: true
+
+      - name: Create GitHub release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          ls -l dist
+          prerelease=""
+          if [[ "$GITHUB_REF_NAME" == *-* ]]; then prerelease="--prerelease"; fi
+          gh release create "$GITHUB_REF_NAME" dist/* \
+            --title "Crosshair Y ${GITHUB_REF_NAME#v}" \
+            --generate-notes \
+            --verify-tag \
+            $prerelease

@@ -1,139 +1,71 @@
 # Crosshair Y
 
 ![License](https://img.shields.io/badge/license-MIT-green)
-![Electron](https://img.shields.io/badge/Electron-v37.2.5-blue)
-![Build](https://img.shields.io/badge/build-passing-brightgreen)
+![Electron](https://img.shields.io/badge/Electron-37-blue)
 
-Crosshair Y is a free and open-source alternative to Crosshair X, designed to provide customizable crosshair overlays for your games. Whether you're aiming for precision or style, Crosshair Y offers a variety of built-in crosshairs and supports custom crosshair images to enhance your gaming experience.
-
-## Table of Contents
-
-- [Features](#features)
-- [Installation](#installation)
-- [Usage](#usage)
-- [Configuration](#configuration)
-- [Contributing](#contributing)
-- [License](#license)
+A free and open-source crosshair overlay for games. Design your own crosshair, browse community designs, and switch them automatically per game.
 
 ## Features
 
-- **Built-in Crosshairs**: Choose from a variety of pre-installed crosshair designs.
-- **Custom Crosshairs**: Easily add your own custom crosshair images.
-- **Adjustable Size, Hue, Rotation & Opacity**: Dial-in the perfect look and visibility. 
-- **Movable Crosshair**:  Position the crosshair anywhere on your screen. You can move it manually in the settings or use the shortcut `Ctrl + Shift + S` to instantly save it to your current cursor position. If you prefer, you can still toggle back to the classic always-centered crosshair.
-- **Presets**: Save, load, and delete crosshair configurations on the fly from the Settings panel.
-- **Cross-Platform**: Available for Windows and Linux.
-- **Lightweight & Efficient**: Minimal system resource usage ensures smooth performance.
-- **User-Friendly Interface**: Intuitive UI for easy configuration and management.
-- **Built-in SVG Editor**: Effortlessly make changes to your SVGs in a single, fluid workspace.
+- **Designer**: lines, center dot, outline, circle, pixel drawing and image layers. Every layer has its own color, opacity, size, blur and rotation. Includes undo/redo, a live on-screen preview and a "hold to fire" preview.
+- **Dynamic crosshairs**: *bloom* spreads the lines while you fire. *T-shape* hides the top line never, always or only while firing.
+- **Library**: saved crosshairs with favorites, categories, search, sorting and drag-to-reorder. Includes 26 built-in designs.
+- **Community gallery**: browse and download designs shared on GitHub, or submit your own from the app. See [community/](community/README.md).
+- **Share & export**: share codes (`CY1-…`), Valorant crosshair code import, and PNG, SVG and JSON export.
+- **Smart toggles**: rebindable keyboard and mouse shortcuts that work in game. Hide or swap the crosshair while aiming (e.g. right mouse button), and jump between crosshairs.
+- **Profiles per game**: each profile has its own crosshair, monitor, position and size. When a linked game is focused, its profile is used automatically (Windows).
+- **Show only in game**, multi-monitor support, pixel-exact position nudging, and hiding the crosshair from screen recordings.
+- **Clean, adjustable UI**: dark, light or system theme, custom accent color, interface scaling, compact mode and a collapsible sidebar.
 
-## Installation
+> The crosshair is an always-on-top window. It shows over games running in **borderless** or **windowed** mode, not exclusive fullscreen.
 
-### Prerequisites
+## Getting started
 
-- [Node.js](https://nodejs.org/) (v14 or later)
-- [Git](https://git-scm.com/) (optional, for cloning the repository)
-
-### Clone the Repository
-
-```bash
-git clone https://github.com/YSSF8/crosshair-y.git
-cd crosshair-y
-```
-
-### Install Dependencies
+Requires [Node.js](https://nodejs.org/) 20 or later.
 
 ```bash
 npm install
+npm start          # build and run
+npm run dev        # hot-reloading UI (restart for main-process changes)
 ```
 
-### Install TypeScript
+Package a standalone app into `build/`:
 
 ```bash
-npm install --save-dev typescript
-# Or
-yarn add --dev typescript
+npm run package          # current platform
+npm run package:win32
+npm run package:linux
 ```
 
-### Compiling TypeScript
+### Releases
+
+The **Build & release** workflow (`.github/workflows/release.yml`) builds Windows and Linux packages on GitHub. To publish a release:
 
 ```bash
-npx tsc
+git tag v5.0.0
+git push origin v5.0.0
 ```
 
-### Running the Application
+The tag becomes the app version. The release gets `crosshair-y-win32-x64.zip` and `crosshair-y-linux-x64.tar.gz`: extract one and run `crosshair-y.exe` / `crosshair-y`. Tags with a dash (e.g. `v5.1.0-beta.1`) are published as pre-releases. To get the packages without publishing a release, run the workflow manually from the Actions tab; they're attached to the run.
 
-```bash
-npm start
+## Project layout
+
+```
+src/
+  main/       Electron main process: state store, overlay window, global input (uiohook-napi),
+              foreground-game detection (koffi, Windows), tray, IPC
+  preload/    Typed, minimal API exposed to the UI as window.cy
+  shared/     Data model, reducer, validation, built-in designs (used by both sides)
+  renderer/
+    app/      React UI (Library, Designer, Keybinds, Profiles, Settings)
+    overlay/  The transparent crosshair window
+    lib/      Crosshair renderer, share codes, community client
+community/    Community gallery (designs + generated index.json)
+scripts/      Dev runner, launcher, packager, community index builder
 ```
 
-## Building for Distribution
+All app state lives in one JSON file in the user data folder (`crosshair-y.json`), owned by the main process. The UI changes it by dispatching actions (`src/shared/state.ts`), so the main window, the overlay and the tray always agree.
 
-Crosshair Y can be packaged for Windows and Linux using Electron Packager.
+## Credits
 
-### Build for Windows (64-bit)
-
-```bash
-npm run build:win32
-```
-
-### Build for Windows (32-bit)
-
-```bash
-npm run build:win32-32bit
-```
-
-### Build for Linux (64-bit)
-
-```bash
-npm run build:linux
-```
-
-The built applications will be located in the `build/` directory.
-
-## Usage
-
-1. **Launching the App**: After running `npm start`, the main window will appear.
-2. **Selecting a Crosshair**:
-   - **Built-in**: Navigate to the "Built-in" section to choose from pre-installed crosshairs.
-   - **Custom**: Add your own crosshair images by selecting a directory containing `.png` or `.svg` files.
-3. **Customizing**:
-   - **Size**: Adjust the size slider to change the crosshair size.
-   - **Hue**: Modify the hue slider to change the crosshair color.
-   - **Rotation**: Adjust the rotation slider to rotate the crosshair.
-   - **Opacity**: Adjust the opacity slider to change the crosshair visibility level.
-   - **Move Crosshair**: Reposition the crosshair by dragging it in the settings preview or by using the `Ctrl + Shift + S` shortcut to snap it to your current cursor location. You can always revert to the locked, center-screen position from the settings menu.
-4. **Presets**: Use the “Presets” pane to save your current setup, load a previously saved one, or delete any you no longer need.
-5. **Toggling Visibility**: Use the toggle switch to show or hide the crosshair overlay.
-6. **Settings**: Access the settings window to reset configurations or manage crosshair directories.
-
-## Configuration
-
-Crosshair Y stores user configurations in the `localStorage`. You can modify settings directly through the application's UI:
-
-- **Crosshair Size**: Adjust using the size range slider in the settings.
-- **Hue**: Change the crosshair color hue via the hue range slider.
-- **Rotation**: Change the rotation level of the crosshair via the rotation range slider.
-- **Opacity**: Adjust using the opacity range slider in the settings.
-- **Move Crosshair**: Adjust the crosshair's position by entering coordinates in the settings or by using the `Ctrl + Shift + S` keyboard shortcut to save your mouse pointer's location instantly. The classic centered mode remains available as an option.
-- **Crosshair Directory**: Select a custom directory containing your crosshair `.png` files.
-
-### Resetting to Default
-
-To reset all configurations to default:
-
-1. Open the settings window by clicking the settings icon.
-2. Click the "Reset" button.
-3. This will revert the size, hue, and crosshair selections to their default values.
-
-## Contributing
-
-We welcome contributions from the community!
-
-## License
-
-This project is licensed under the [MIT License](LICENSE).
-
----
-
-**Developed by [YSSF](https://github.com/YSSF8)**
+Originally created by [YSSF8](https://github.com/YSSF8/crosshair-y), with contributions from [deagleon](https://github.com/deagleon/crosshair-y). Licensed under the [MIT License](LICENSE).
