@@ -165,7 +165,7 @@ function createMainWindow() {
     minHeight: 580,
     show: false,
     backgroundColor: dark ? "#0f1115" : "#f5f6f8",
-    icon: process.platform === "win32" ? windowIconPath() : undefined,
+    icon: windowIconPath(),
     titleBarStyle: "hidden",
     titleBarOverlay: { color: dark ? "#0f1115" : "#f5f6f8", symbolColor: dark ? "#c9ced6" : "#2a2f37", height: 48 },
     autoHideMenuBar: true,
@@ -460,7 +460,13 @@ store.subscribe((state, prev) => {
 function applyLoginItem() {
   if (process.platform === "linux") return;
   try {
-    app.setLoginItemSettings({ openAtLogin: store.get().settings.launchOnStartup, args: ["--hidden"] });
+    // The portable .exe unpacks to a temp folder on every run; register the .exe itself instead.
+    const portable = process.env.PORTABLE_EXECUTABLE_FILE;
+    app.setLoginItemSettings({
+      openAtLogin: store.get().settings.launchOnStartup,
+      args: ["--hidden"],
+      ...(portable ? { path: portable } : {}),
+    });
   } catch (err) {
     console.error("Failed to update login item:", err);
   }

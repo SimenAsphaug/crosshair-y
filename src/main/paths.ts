@@ -22,7 +22,7 @@ export function isAppUrl(url: string) {
 }
 
 export function windowIconPath() {
-  return path.join(app.getAppPath(), "icon.ico");
+  return path.join(app.getAppPath(), "build-assets", process.platform === "win32" ? "icon.ico" : "icon.png");
 }
 
 /** Draws a small crosshair icon in memory (used for the tray on every platform). */

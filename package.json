@@ -8,13 +8,13 @@
     "build": "tsc -p tsconfig.main.json && tsc -p tsconfig.json && vite build",
     "start": "npm run build && node scripts/start.mjs",
     "typecheck": "tsc -p tsconfig.main.json --noEmit && tsc -p tsconfig.json",
-    "package": "npm run build && node scripts/package.mjs",
-    "package:win32": "npm run build && node scripts/package.mjs win32 x64",
-    "package:linux": "npm run build && node scripts/package.mjs linux x64",
+    "package": "npm run build && electron-builder --publish never",
+    "package:win32": "npm run build && electron-builder --win --x64 --publish never",
+    "package:linux": "npm run build && electron-builder --linux --x64 --publish never",
     "community:index": "node scripts/build-community-index.mjs"
   },
   "keywords": [],
-  "author": "YSSF",
+  "author": "Crosshair Y contributors",
   "license": "MIT",
   "description": "Free and open-source crosshair overlay for games",
   "dependencies": {
@@ -22,16 +22,76 @@
     "uiohook-napi": "^1.5.4"
   },
   "devDependencies": {
-    "@electron/packager": "^18.3.6",
     "@types/node": "^22.10.2",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.1",
     "@vitejs/plugin-react": "^4.3.4",
     "electron": "^37.2.5",
+    "electron-builder": "^25.1.8",
     "lucide-react": "^0.460.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.9.3",
     "vite": "^5.4.11"
+  },
+  "homepage": "https://github.com/SimenAsphaug/crosshair-y",
+  "build": {
+    "appId": "io.github.crosshair-y",
+    "productName": "Crosshair Y",
+    "directories": {
+      "output": "build",
+      "buildResources": "build-assets"
+    },
+    "files": [
+      "dist/**/*",
+      "build-assets/icon.ico",
+      "build-assets/icon.png",
+      "package.json"
+    ],
+    "asarUnpack": [
+      "**/*.node"
+    ],
+    "win": {
+      "target": [
+        {
+          "target": "nsis",
+          "arch": [
+            "x64"
+          ]
+        },
+        {
+          "target": "portable",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build-assets/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": false,
+      "allowToChangeInstallationDirectory": true,
+      "createDesktopShortcut": true,
+      "createStartMenuShortcut": true,
+      "shortcutName": "Crosshair Y",
+      "artifactName": "Crosshair-Y-Setup-${version}.${ext}"
+    },
+    "portable": {
+      "artifactName": "Crosshair-Y-${version}-portable.${ext}"
+    },
+    "linux": {
+      "target": [
+        {
+          "target": "AppImage",
+          "arch": [
+            "x64"
+          ]
+        }
+      ],
+      "icon": "build-assets/icon.png",
+      "category": "Utility",
+      "artifactName": "Crosshair-Y-${version}.${ext}"
+    }
   }
 }
