@@ -42,24 +42,16 @@ jobs:
           npm run typecheck
           npm run build
 
+      # Windows: Setup installer + portable .exe. Linux: AppImage.
       - name: Package
-        run: node scripts/package.mjs ${{ matrix.platform }} x64
-
-      - name: Archive (Windows)
-        if: matrix.platform == 'win32'
-        shell: pwsh
-        run: |
-          Compress-Archive -Path build/crosshair-y-win32-x64 -DestinationPath crosshair-y-win32-x64.zip
-
-      - name: Archive (Linux)
-        if: matrix.platform == 'linux'
-        # tar keeps the executable permission, which zip would lose.
-        run: tar -czf crosshair-y-linux-x64.tar.gz -C build crosshair-y-linux-x64
+        run: npx electron-builder ${{ matrix.platform == 'win32' && '--win' || '--linux' }} --x64 --publish never
 
       - uses: actions/upload-artifact@v4
         with:
           name: crosshair-y-${{ matrix.platform }}-x64
-          path: crosshair-y-${{ matrix.platform }}-x64.*
+          path: |
+            build/*.exe
+            build/*.AppImage
           if-no-files-found: error
 
   release:
@@ -83,8 +75,22 @@ jobs:
           ls -l dist
           prerelease=""
           if [[ "$GITHUB_REF_NAME" == *-* ]]; then prerelease="--prerelease"; fi
+          version="${GITHUB_REF_NAME#v}"
+          cat > notes.md <<EOF
+          ## Downloads
+
+          | File | What it is |
+          |---|---|
+          | \`Crosshair-Y-Setup-${version}.exe\` | **Windows installer** (recommended). Adds Start menu and desktop shortcuts and an uninstaller. |
+          | \`Crosshair-Y-${version}-portable.exe\` | **Windows portable**. One file, no install, just run it. |
+          | \`Crosshair-Y-${version}.AppImage\` | **Linux**. Make it executable (\`chmod +x\`) and run it. |
+
+          Windows may show a SmartScreen warning because the app isn't code-signed. Click **More info**, then **Run anyway**.
+
+          EOF
           gh release create "$GITHUB_REF_NAME" dist/* \
-            --title "Crosshair Y ${GITHUB_REF_NAME#v}" \
+            --title "Crosshair Y ${version}" \
+            --notes-file notes.md \
             --generate-notes \
             --verify-tag \
             --draft \

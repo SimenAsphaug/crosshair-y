@@ -29,13 +29,15 @@ npm start          # build and run
 npm run dev        # hot-reloading UI (restart for main-process changes)
 ```
 
-Package a standalone app into `build/`:
+Build installable packages into `build/` (uses [electron-builder](https://www.electron.build/)):
 
 ```bash
 npm run package          # current platform
-npm run package:win32
-npm run package:linux
+npm run package:win32    # Setup .exe installer + portable .exe
+npm run package:linux    # AppImage
 ```
+
+> Building the Windows package locally without Windows Developer Mode can fail with *"Cannot create symbolic link"*. That's an electron-builder quirk with macOS files in its tool archive. Turning on Developer Mode fixes it. GitHub builds aren't affected.
 
 ### Releases
 
@@ -46,7 +48,13 @@ git tag v5.0.0
 git push origin v5.0.0
 ```
 
-The tag becomes the app version. The workflow creates a **draft** release. Check it on the repository's Releases page, edit the notes if you like, and click **Publish release** to make it public. Until then, users and the in-app update check don't see it. The release gets `crosshair-y-win32-x64.zip` and `crosshair-y-linux-x64.tar.gz`: extract one and run `crosshair-y.exe` / `crosshair-y`. Tags with a dash (e.g. `v5.1.0-beta.1`) are marked as pre-releases. To get the packages without publishing a release, run the workflow manually from the Actions tab; they're attached to the run.
+The tag becomes the app version. The workflow creates a **draft** release. Check it on the repository's Releases page, edit the notes if you like, and click **Publish release** to make it public. Until then, users and the in-app update check don't see it. The release includes:
+
+- `Crosshair-Y-Setup-<version>.exe`: the Windows installer (Start menu and desktop shortcuts, uninstaller)
+- `Crosshair-Y-<version>-portable.exe`: a single Windows file you run without installing
+- `Crosshair-Y-<version>.AppImage`: the Linux app (`chmod +x`, then run it)
+
+The builds aren't code-signed, so Windows SmartScreen shows a warning the first time. Tags with a dash (e.g. `v5.1.0-beta.1`) are marked as pre-releases. To get the packages without publishing a release, run the workflow manually from the Actions tab; they're attached to the run.
 
 ## Project layout
 
