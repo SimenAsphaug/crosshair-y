@@ -1,0 +1,27 @@
+{
+  "author": "Crosshair Y",
+  "tags": [
+    "tactical",
+    "small"
+  ],
+  "game": "Valorant",
+  "design": {
+    "name": "Sentinel",
+    "lines": {
+      "enabled": true,
+      "color": "#ffffff",
+      "length": 4,
+      "thickness": 2,
+      "gap": 3
+    },
+    "dot": {
+      "enabled": true,
+      "color": "#ffffff",
+      "size": 2
+    },
+    "outline": {
+      "enabled": true,
+      "opacity": 0.6
+    }
+  }
+}

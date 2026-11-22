@@ -1,27 +1,37 @@
 {
   "name": "crosshair-y",
   "productName": "Crosshair Y",
-  "version": "4.2",
-  "main": "dist/index.js",
+  "version": "5.0.0",
+  "main": "dist/main/main.js",
   "scripts": {
-    "start": "electron .",
-    "build:win32": "electron-packager . crosshair-y --platform=win32 --arch=x64 --out=build/ --overwrite --icon=icon.ico",
-    "build:win32-32bit": "electron-packager . crosshair-y --platform=win32 --arch=ia32 --out=build/ --overwrite --icon=icon.ico",
-    "build:linux": "electron-packager . crosshair-y --platform=linux --arch=x64 --out=build/ --overwrite --icon=icon.png"
+    "dev": "node scripts/dev.mjs",
+    "build": "tsc -p tsconfig.main.json && tsc -p tsconfig.json && vite build",
+    "start": "npm run build && node scripts/start.mjs",
+    "typecheck": "tsc -p tsconfig.main.json --noEmit && tsc -p tsconfig.json",
+    "package": "npm run build && node scripts/package.mjs",
+    "package:win32": "npm run build && node scripts/package.mjs win32 x64",
+    "package:linux": "npm run build && node scripts/package.mjs linux x64",
+    "community:index": "node scripts/build-community-index.mjs"
   },
   "keywords": [],
   "author": "YSSF",
   "license": "MIT",
-  "description": "A free and open-source alternative to Crosshair X",
+  "description": "Free and open-source crosshair overlay for games",
   "dependencies": {
-    "axios": "^1.7.9",
-    "electron": "^37.2.5",
-    "openurl": "^1.1.1"
+    "koffi": "^2.9.2",
+    "uiohook-napi": "^1.5.4"
   },
   "devDependencies": {
+    "@electron/packager": "^18.3.6",
     "@types/node": "^22.10.2",
-    "@types/openurl": "^1.0.3",
-    "electron-packager": "^17.1.2",
-    "typescript": "^5.9.3"
+    "@types/react": "^18.3.12",
+    "@types/react-dom": "^18.3.1",
+    "@vitejs/plugin-react": "^4.3.4",
+    "electron": "^37.2.5",
+    "lucide-react": "^0.460.0",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "typescript": "^5.9.3",
+    "vite": "^5.4.11"
   }
 }
